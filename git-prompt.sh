@@ -6,9 +6,10 @@ git_info() {
 
   # Git branch/tag, or name-rev if on detached head
   local GIT_LOCATION=$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD)
+  local GIT_CHANGES=$(git status --short | wc -l)
 
   # Extract only the branch name
-  GIT_LOCATION=$(basename "$GIT_LOCATION")
+#   GIT_LOCATION=$(basename "$GIT_LOCATION")
 
   local AHEAD="AHEAD"
   local BEHIND="BEHIND"
@@ -47,7 +48,7 @@ git_info() {
     FLAGS+=" $STAGED"
   fi
 
-  echo "${GIT_LOCATION}${DIVERGENCES}${FLAGS}" #±
+  echo "${GIT_LOCATION}${DIVERGENCES}${FLAGS}${GIT_CHANGES}" #±
 
 }
 
