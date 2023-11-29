@@ -10,6 +10,12 @@ git_info() {
 
   # Extract only the branch name
 #   GIT_LOCATION=$(basename "$GIT_LOCATION")
+if [ -z "$(git symbolic-ref -q HEAD)" ]; then
+    GIT_LOCATION="(detach HEAD)${GIT_LOCATION}"
+  else
+    # Extract only the branch name
+    GIT_LOCATION=$(basename "$GIT_LOCATION")
+  fi
 
   local AHEAD="AHEAD"
   local BEHIND="BEHIND"
