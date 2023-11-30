@@ -34,7 +34,7 @@ CB_ROYALBLUE1="\e[48;5;63m"
 CB_SANDYBROWN="\e[48;5;215m"
 CB_VIOLET="\e[48;5;177m"
 
-black='\[\e[30m\]'
+black='\e[30m'
 red='\e[31m'
 green='\e[32m'
 yellow='\e[33m'
@@ -166,7 +166,7 @@ git_info() {
 	fi
 
 	if [ "$GIT_CHANGES" -gt 0 ]; then
-		GIT_CHANGES="${NO_FORMAT}${CB_SANDYBROWN}${C_MAROON} Changes ($GIT_CHANGES)"
+		GIT_CHANGES="${NO_FORMAT}${black}${F_ITALIC}${F_UNDERLINED}Changes $GIT_CHANGES${NO_FORMAT} ${black}${F_ITALIC}[${F_DIM}${FLAGS}${NO_FORMAT}${black}${F_ITALIC}${F_UNDERLINE}]"
 	else
 		GIT_CHANGES=''
 	fi
@@ -176,31 +176,15 @@ git_info() {
 		GAP=''
 	fi
 
-	GIT_TAG="$NO_FORMAT$C_SANDYBROWN$I_SEMICIRCLE_START$CB_SANDYBROWN$C_MAROON$I_GIT $NO_FORMAT$CB_MAROON $CB_SANDYBROWN$C_MAROON"
-	GIT_TAG="${GIT_TAG} (${I_BRANCH} ${GIT_LOCATION}) ${GIT_CHANGES}" #±
-	GIT_TAG="$GIT_TAG$NO_FORMAT$C_SANDYBROWN$I_SEMICIRCLE_END"
-	GIT_TAG="$GIT_TAG ${F_DIM}${DIVERGENCES}${GAP}${FLAGS}"
+	GIT_TAG="${NO_FORMAT}${purple}${I_GIT} [${I_BRANCH} ${GIT_LOCATION}${F_DIM}${DIVERGENCES}${NO_FORMAT}${purple}] ${GIT_CHANGES}"
 	echo -e "${GIT_TAG}"
-	# echo "${GIT_LOCATION}${DIVERGENCES}${FLAGS}${GIT_CHANGES}" #±
 
 }
 
 ###################
-# PS1='\[\e]0;$TITLEPREFIX:$PWD\007\]' # set window title
-PS1="\n$C_LIGHTSTEELBLUE$I_SEMICIRCLE_START"
-PS1="$PS1$CB_LIGHTSTEELBLUE"
-PS1="$PS1$C_ROYALBLUE1$I_CALENDAR"' '
-PS1="$PS1$NO_FORMAT$CB_ROYALBLUE1"' '
-PS1="$PS1$C_ROYALBLUE1$CB_LIGHTSTEELBLUE"' \d'$suffix' | \@ '
-PS1="$PS1$NO_FORMAT$C_LIGHTSTEELBLUE$I_SEMICIRCLE_END"
-
-PS1="$PS1\n"
-
-PS1="$PS1$NO_FORMAT$C_GREENYELLOW$I_SEMICIRCLE_START"
-PS1="$PS1$CB_GREENYELLOW$C_GREEN4$I_DIRECTORY"' '
-PS1="$PS1$NO_FORMAT$CB_GREEN4"' '
-PS1="$PS1$C_GREEN4$CB_GREENYELLOW"' \[$(pwd | sed -E -e "s|^'"$HOME"'|~|" -e "s|^.*/([^/]*)/([^/]*)/.*(/[^/]*/[^/]*)|\1/\2/....\3|")\] '
-PS1="$PS1$NO_FORMAT$C_GREENYELLOW$I_SEMICIRCLE_END"
+PS1="$NO_FORMAT\n"
+PS1="$PS1$NO_FORMAT$blue$F_ITALIC$F_DIM$I_CALENDAR \d$suffix${NO_FORMAT}${black} -- "
+PS1="$PS1$green$I_DIRECTORY"' \[$(pwd | sed -E -e "s|^'"$HOME"'|~|" -e "s|^.*/([^/]*)/([^/]*)/.*(/[^/]*/[^/]*)|\1/\2/....\3|")\] '
 
 PS1="$PS1\012"
 
@@ -212,25 +196,11 @@ if test -z "$WINELOADERNOEXEC"; then
 	if test -f "$COMPLETION_PATH/git-prompt.sh"; then
 		. "$COMPLETION_PATH/git-completion.bash"
 		. "$COMPLETION_PATH/git-prompt.sh"
-
-		# if [ -d ".git" ] || git rev-parse --git-dir &>/dev/null; then
-
-		# PS1="$PS1$NO_FORMAT$C_ORANGERED1$I_SEMICIRCLE_START"
-		# PS1="$PS1$CB_ORANGERED1$C_MAROON$I_GIT"' '
-		# PS1="$PS1$NO_FORMAT$CB_MAROON"' '
-
-		# PS1="$PS1$C_MAROON$CB_ORANGERED1"' $(__git_ps1 "(%s)")'
-		# PS1="$PS1"'%{$fg[magenta]%}%~%u $(git_info)'
 		PS1="$PS1"'$(git_info)'
-
-		# PS1="$PS1$C_MAROON$CB_ORANGERED1"' $(git status --porcelain)'
-		# PS1="$PS1$NO_FORMAT$C_ORANGERED1$I_SEMICIRCLE_END"
-		# fi
-		# PS1="$PS1"'`__git_ps1`'   # bash function
 	fi
 fi
 
-PS1="$PS1$NO_FORMAT$C_DODGERBLUE1\012\$$black "
+PS1="$PS1$NO_FORMAT$C_DODGERBLUE1\012\$\[$NO_FORMAT\] "
 
 #######################
 MSYS2_PS1="$PS1" # for detection by MSYS2 SDK's bash.basrc
