@@ -230,7 +230,7 @@ if test -z "$WINELOADERNOEXEC"; then
 	fi
 fi
 
-PS1="$PS1$NO_FORMAT$C_DODGERBLUE1\012\$$black "
+PS1="$PS1$NO_FORMAT$C_DODGERBLUE1\012\$$NO_FORMAT "
 
 #######################
 MSYS2_PS1="$PS1" # for detection by MSYS2 SDK's bash.basrc
