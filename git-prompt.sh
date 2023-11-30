@@ -171,12 +171,13 @@ git_info() {
 		GIT_CHANGES=''
 	fi
 
-	local GAP="${NO_FORMAT}${F_DIM}${C_GREY62} -- "
+	# local GAP="${NO_FORMAT}${F_DIM}${C_GREY62} -- "
+	local GAP=" "
 	if [ "$DIVERGENCES" == "" ]; then
 		GAP=''
 	fi
 
-	GIT_TAG="${NO_FORMAT}${purple}${I_GIT} [${I_BRANCH} ${GIT_LOCATION}${F_DIM}${DIVERGENCES}${NO_FORMAT}${purple}] ${GIT_CHANGES}"
+	GIT_TAG="${NO_FORMAT}${purple}${I_GIT} [${I_BRANCH} ${GIT_LOCATION}${GAP}${F_DIM}${DIVERGENCES}${NO_FORMAT}${purple}] ${GIT_CHANGES}"
 	echo -e "${GIT_TAG}"
 
 }
