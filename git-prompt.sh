@@ -78,14 +78,17 @@ I_UNTRACKED="󰛑"
 SEP="${C_GREY54}•"
 
 ###
-day=$(date +"%d")
-suffix_arr=("st" "nd" "rd")
-if (((day >= 4 && day <= 20) || (day >= 24 && day <= 30))); then
-	suffix="th"
-else
-	suffix_arr=("st" "nd" "rd")
-	suffix=${suffix_arr[day % 10 - 1]}
-fi
+get_date_suffix()
+{
+	local day=$(date +"%d")
+	local suffix_arr=("st" "nd" "rd")
+	if (((day >= 4 && day <= 20) || (day >= 24 && day <= 30))); then
+		echo "th"
+	else
+		echo ${suffix_arr[day % 10 - 1]}
+	fi
+}
+
 ##################
 git_info() {
 
@@ -184,7 +187,7 @@ git_info() {
 
 ###################
 PS1="$NO_FORMAT\n"
-PS1="$PS1$NO_FORMAT$blue$F_ITALIC$F_DIM$I_CALENDAR \d$suffix${NO_FORMAT}${black} -- "
+PS1="$PS1$NO_FORMAT$blue$F_ITALIC$F_DIM$I_CALENDAR \d$(get_date_suffix)${NO_FORMAT}${black} -- "
 PS1="$PS1$green$I_DIRECTORY"' \[$(pwd | sed -E -e "s|^'"$HOME"'|~|" -e "s|^.*/([^/]*)/([^/]*)/.*(/[^/]*/[^/]*)|\1/\2/....\3|")\] '
 
 PS1="$PS1\012"
