@@ -89,6 +89,13 @@ get_date_suffix()
 	fi
 }
 
+count_files() {
+    local file_count=$(find . -maxdepth 1 -type f | wc -l)
+    local dir_count=$(find . -maxdepth 1 -type d | wc -l)
+    
+    echo -e "${F_DIM}${SEP} [$((file_count + dir_count - 1))]"
+}
+
 ##################
 git_info() {
 
@@ -189,7 +196,7 @@ git_info() {
 PS1="$NO_FORMAT\n"
 PS1="$PS1$NO_FORMAT$blue$F_ITALIC$F_DIM$I_CALENDAR \d$(get_date_suffix)${NO_FORMAT}${black} -- "
 PS1="$PS1$green$I_DIRECTORY"' \[$(pwd | sed -E -e "s|^'"$HOME"'|~|" -e "s|^.*/([^/]*)/([^/]*)/.*(/[^/]*/[^/]*)|\1/\2/....\3|")\] '
-
+PS1="$PS1"'$(count_files)'
 PS1="$PS1\012"
 
 if test -z "$WINELOADERNOEXEC"; then
