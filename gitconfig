@@ -1,0 +1,37 @@
+[diff "astextplain"]
+	textconv = astextplain
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[http]
+	sslBackend = openssl
+	sslCAInfo = C:/Program Files/0_my_installs/Git/mingw64/etc/ssl/certs/ca-bundle.crt
+[core]
+	autocrlf = true
+	fscache = true
+	symlinks = false
+[pull]
+	rebase = false
+[credential]
+	helper = manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
+[init]
+	defaultBranch = master
+
+# my additions
+[color "diff"]
+	meta = yellow
+
+[alias]
+	s = status
+	ls = log --pretty='format:"%C(yellow)%h %C(auto)%d %Creset%s \\%n%Cblue[commit by %cn]"' --decorate --numstat
+	logd = log --pretty='format:%C(white)[%cn | %cd | %cr]%n%C(yellow)%h %C(auto)%d %Creset%s%n%<(100,trunc)%b' --date=short
+	logdd = log --pretty='format:%C(auto)%h (%s, %ad)'
+	logn = !git log --oneline | nl -v0
+	unstage =  	restore --staged # rm --cached # unstage staged files. Note: will not work by its self, i.e. git unstage, you must specify file or to unstage all use git unstage -r .
+	cpwd = "! pwd | clip"
+	ac = "!f() { git add \"${@:2}\" && git commit -m \"$1\"; }; f"
+	ac2 = "!f() { git add '${@:2}' && git commit -m '$1'; }; f"
